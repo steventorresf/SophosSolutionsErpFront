@@ -1,0 +1,142 @@
+<div *ngIf="gridVisible" style="width: 100%;" class="m-auto">
+  <div>
+    <h1>Nueva venta</h1>
+  </div>
+  <div class="mt-sm">
+    <form [formGroup]="myForm">
+      <table class="table-form">
+        <thead>
+          <tr>
+            <th>Cliente:</th>
+            <td>
+              <select class="form-control" formControlName="idCliente">
+                <option *ngFor="let i of dataClientes" [ngValue]="i.idCliente">{{i.nombre + i.apellido}}</option>
+              </select>
+              <span *ngIf="idCliente && idCliente.invalid && idCliente.touched" style="color: red;">El cliente es requerido</span>
+            </td>
+            <th>Fecha Venta</th>
+            <td>
+              <input type="date" class="form-control" formControlName="fechaVenta">
+              <span *ngIf="fechaVenta && fechaVenta.invalid && fechaVenta.touched" style="color: red;">La fecha venta es requerido</span>
+            </td>
+          </tr>
+        </thead>
+      </table>
+    </form>
+  </div>
+  <div class="mt-sm text-right">
+    <button class="btn btn-primary" (click)="agregar()">Agregar</button>
+  </div>
+  <div class="mt-sm">
+    <table class="text-center">
+      <thead>
+        <tr>
+          <th width="40%">NOMBRE</th>
+          <th width="15%">CANTIDAD</th>
+          <th width="15%">VALOR UNITARIO</th>
+          <th width="15%">VALOR TOTAL</th>
+          <th width="15%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of productoList">
+          <td>{{ item.nombre }}</td>
+          <td>{{ item.cantidad }}</td>
+          <td class="text-right">{{ item.valorUnitario }}</td>
+          <td class="text-right">{{ item.valorTotal }}</td>
+          <td>
+            <mat-icon *ngIf="item.id > 0" (click)="quitar(item)">delete_forever</mat-icon>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-right mt-sm">
+    <button class="btn btn-primary" (click)="onSubmit()">Registrar venta</button>
+  </div>
+</div>
+
+
+<div *ngIf="formVisible" style="width: 50%; margin-top: 50px;" class="m-auto">
+  <form [formGroup]="myFormPro" (ngSubmit)="onSubmitPro()">
+    <table class="table-form">
+      <thead>
+        <tr>
+          <th colspan="2">AGREGAR PRODUCTO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Producto:</td>
+          <td>
+            <select class="form-control" formControlName="idProducto" (ngModelChange)="changeSelectModel($event)">
+              <option *ngFor="let i of dataProductos" [ngValue]="i.idProducto">{{i.nombre}}</option>
+            </select>
+            <span *ngIf="idProducto && idProducto.invalid && idProducto.touched" style="color: red;">La identificaci&oacute;n es requerida</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Cantidad:</td>
+          <td>
+            <input type="number" class="form-control" formControlName="cantidad">
+            <span *ngIf="cantidad && cantidad.invalid && cantidad.touched" style="color: red;">El nombre es requerido</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Valor Unitario:</td>
+          <td>
+            <input type="number" class="form-control" formControlName="valorUnitario">
+            <label *ngIf="valorUnitario && valorUnitario.invalid && valorUnitario.touched" style="color: red;">El apellido es requerido</label>
+          </td>
+        </tr>
+        <tr class="text-center">
+          <td colspan="2">
+            <button  class="btn btn-primary" type="submit">Agregar</button>
+            <button class="btn btn-default" (click)="cancelar()">Cancelar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+
+<div *ngIf="ventaVisible" style="width: 100%;" class="m-auto">
+  <div>
+    <h1>Venta # {{ dataVenta.noVenta }}</h1>
+  </div>
+  <div class="mt-sm">
+    <table class="table-form">
+      <thead>
+        <tr>
+          <th>Cliente:</th>
+          <td>{{ dataVenta.nombreCliente }}</td>
+          <th>Fecha Venta</th>
+          <td>{{ dataVenta.fechaVenta }}</td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="mt-sm">
+    <table class="text-center">
+      <thead>
+        <tr>
+          <th width="40%">NOMBRE</th>
+          <th width="20%">CANTIDAD</th>
+          <th width="20%">VALOR UNITARIO</th>
+          <th width="20%">VALOR TOTAL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of dataVenta.ventaDetalleList">
+          <td>{{ item.nombreProducto }}</td>
+          <td>{{ item.cantidad }}</td>
+          <td class="text-right">{{ item.valorUnitario }}</td>
+          <td class="text-right">{{ item.valorTotal }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-center mt-sm">
+    <button class="btn btn-primary" (click)="nuevaVenta()">Nueva venta</button>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<div *ngIf="gridVisible" style="width: 100%;" class="m-auto">
+  <div>
+    <button class="btn btn-primary" style="float: right;" (click)="nuevo()">Nuevo</button>
+    <h1>Listado de clientes</h1>
+  </div>
+  <div class="mt-sm">
+    <table class="text-center">
+      <thead>
+        <tr>
+          <th width="20%">IDENTIFICACI&Oacute;N</th>
+          <th width="20%">NOMBRE</th>
+          <th width="20%">APELLIDO</th>
+          <th width="20%">TEL&Eacute;FONO</th>
+          <th width="20%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of dataSource">
+          <td>{{ item.identificacion }}</td>
+          <td>{{ item.nombre }}</td>
+          <td>{{ item.apellido }}</td>
+          <td>{{ item.telefono }}</td>
+          <td>
+            <mat-icon *ngIf="item.idCliente > 0" (click)="editar(item)" class="mr-sm">edit</mat-icon>
+            <mat-icon *ngIf="item.idCliente > 0" (click)="eliminar(item)">delete_forever</mat-icon>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="formVisible" style="width: 50%; margin-top: 50px;" class="m-auto">
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <table class="table-form">
+      <thead>
+        <tr>
+          <th colspan="2">{{ textForm }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Identificaci&oacute;n:</td>
+          <td>
+            <input type="text" class="form-control" formControlName="identificacion">
+            <span *ngIf="identificacion && identificacion.invalid && identificacion.touched" style="color: red;">La identificaci&oacute;n es requerida</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Nombre:</td>
+          <td>
+            <input type="text" class="form-control" formControlName="nombre">
+            <span *ngIf="nombre && nombre.invalid && nombre.touched" style="color: red;">El nombre es requerido</span>
+          </td>
+        </tr>
+        <tr>
+          <td>Apellido:</td>
+          <td>
+            <input type="text" class="form-control" formControlName="apellido">
+            <label *ngIf="apellido && apellido.invalid && apellido.touched" style="color: red;">El apellido es requerido</label>
+          </td>
+        </tr>
+        <tr>
+          <td>Tel&eacute;fono:</td>
+          <td>
+            <input type="text" class="form-control" formControlName="telefono">
+            <label *ngIf="telefono && telefono.invalid && telefono.touched" style="color: red;">El tel&eacute;fono es requerido</label>
+          </td>
+        </tr>
+        <tr class="text-center">
+          <td colspan="2">
+            <button  class="btn btn-primary" type="submit">Guardar</button>
+            <button class="btn btn-default" (click)="cancelar()">Cancelar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
